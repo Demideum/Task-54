@@ -69,7 +69,7 @@ namespace Task_54
                         SortByAge();
                         break;
                     case "3":
-                        SortByDisease();
+                        FindPatientsWithDisease();
                         break;
                     case "4":
                         _isWork = false;
@@ -87,7 +87,7 @@ namespace Task_54
             _patients = _patients.OrderBy(patient => patient.FullName).ToList();
             Console.WriteLine("\nРезультат сортировки:\n");
             ShowPatients();
-            PutPlug("\nДля возврата в главное меню нажмите любую клавишу.");
+            ReadKey("\nДля возврата в главное меню нажмите любую клавишу.");
         }
 
         private void SortByAge()
@@ -96,10 +96,10 @@ namespace Task_54
             _patients = _patients.OrderBy(patient => patient.Age).ToList();
             Console.WriteLine("\nРезультат сортировки:");
             ShowPatients();
-            PutPlug("\nДля возврата в главное меню нажмите любую клавишу.");
+            ReadKey("\nДля возврата в главное меню нажмите любую клавишу.");
         }
 
-        private void SortByDisease()
+        private void FindPatientsWithDisease()
         {
             List<Patient> filteredPatients = new List<Patient>();
             string userInput;
@@ -113,7 +113,7 @@ namespace Task_54
             {
                 Console.WriteLine($"ФИО пациента - {patient.FullName}. Возраст - {patient.Age} лет. Заболевание - {patient.Disease}.");
             }
-            PutPlug("\nДля возврата в главное меню нажмите любую клавишу.");
+            ReadKey("\nДля возврата в главное меню нажмите любую клавишу.");
         }
 
         private void ShowPatients()
@@ -126,9 +126,9 @@ namespace Task_54
             }
         }
 
-        private void PutPlug(string massage)
+        private void ReadKey(string message)
         {
-            Console.WriteLine(massage);
+            Console.WriteLine(message);
             Console.ReadKey();
             Console.Clear();
         }
@@ -153,4 +153,3 @@ namespace Task_54
         }
     }
 }
-
