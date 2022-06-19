@@ -83,7 +83,6 @@ namespace Task_54
 
         private void SortByName()
         {
-            Console.WriteLine("\nСписок всех пациентов:\n");
             ShowPatients();
             _patients = _patients.OrderBy(patient => patient.FullName).ToList();
             Console.WriteLine("\nРезультат сортировки:\n");
@@ -93,7 +92,6 @@ namespace Task_54
 
         private void SortByAge()
         {
-            Console.WriteLine("\nСписок всех пациентов:\n");
             ShowPatients();
             _patients = _patients.OrderBy(patient => patient.Age).ToList();
             Console.WriteLine("\nРезультат сортировки:");
@@ -106,7 +104,6 @@ namespace Task_54
             List<Patient> filteredPatients = new List<Patient>();
             string userInput;
 
-            Console.WriteLine("\nСписок всех пациентов:\n");
             ShowPatients();
             Console.Write("\nДля поиска пациентов введите заболевание:  ");
             userInput = Console.ReadLine();
@@ -121,6 +118,8 @@ namespace Task_54
 
         private void ShowPatients()
         {
+            Console.WriteLine("\nСписок всех пациентов:\n");
+
             for (int i = 0; i < _patients.Count; i++)
             {
                 _patients[i].ShowInfoPatient();
@@ -154,3 +153,4 @@ namespace Task_54
         }
     }
 }
+
