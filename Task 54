@@ -1,0 +1,156 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+/*
+ * У вас есть список больных(минимум 10 записей)
+Класс больного состоит из полей: ФИО, возраст, заболевание.
+Требуется написать программу больницы, в которой перед пользователем будет меню со следующими пунктами:
+1)Отсортировать всех больных по фио
+2)Отсортировать всех больных по возрасту
+3)Вывести больных с определенным заболеванием
+(название заболевания вводится пользователем с клавиатуры)
+ */
+
+namespace Task_54
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            DatabasePatients databasePatients = new DatabasePatients();
+            databasePatients.Work();
+        }
+    }
+
+    class DatabasePatients
+    {
+        private bool _isWork = true;
+        private List<Patient> _patients = new List<Patient>();
+
+        public DatabasePatients()
+        {
+            _patients.Add(new Patient("Иванов Иван Иваныч", 28, "ОРЗ"));
+            _patients.Add(new Patient("Петров Петр Петрович", 35, "Отравление"));
+            _patients.Add(new Patient("Сидоров Сидр Сидорович", 42, "Нервоз"));
+            _patients.Add(new Patient("Сергиев Сергей Сергеевич", 18, "Бессоница"));
+            _patients.Add(new Patient("Алексеев Алексей Алексеевич", 24, "ОРЗ"));
+            _patients.Add(new Patient("Алекссандров Александр Александрович", 36, "Отравление"));
+            _patients.Add(new Patient("Иванова Ивана Ивановна", 41, "ОРЗ"));
+            _patients.Add(new Patient("Сергиева Светлана Сергеевна", 19, "Нервоз"));
+            _patients.Add(new Patient("Алексеева Алекса Алексеевна", 22, "Нервоз"));
+            _patients.Add(new Patient("Алекссандрова Александра Александровна", 37, "Бессоница"));
+        }
+
+        public void Work()
+        {
+            string userInput;
+
+            while (_isWork)
+            {
+
+                Console.WriteLine("База данных пациентов. Выбирите команду из предложенных:" +
+                    "\n\n1. Отсортировать всех больных по ФИО;" +
+                    "\n2. Отсортировать всех больных по возрасту;" +
+                    "\n3. Вывести больных с определенным заболеванием;" +
+                    "\n4. Выход из базы данных.");
+
+                userInput = Console.ReadLine();
+                Console.Clear();
+
+                switch (userInput)
+                {
+                    case "1":
+                        SortByName();
+                        break;
+                    case "2":
+                        SortByAge();
+                        break;
+                    case "3":
+                        SortByDisease();
+                        break;
+                    case "4":
+                        _isWork = false;
+                        break;
+                    default:
+                        Console.WriteLine("Проверьте ввод!");
+                        break;
+                }
+            }
+        }
+
+        private void SortByName()
+        {
+            Console.WriteLine("\nСписок всех пациентов:\n");
+            ShowPatients();
+            _patients = _patients.OrderBy(patient => patient.FullName).ToList();
+            Console.WriteLine("\nРезультат сортировки:\n");
+            ShowPatients();
+            PutPlug("\nДля возврата в главное меню нажмите любую клавишу.");
+        }
+
+        private void SortByAge()
+        {
+            Console.WriteLine("\nСписок всех пациентов:\n");
+            ShowPatients();
+            _patients = _patients.OrderBy(patient => patient.Age).ToList();
+            Console.WriteLine("\nРезультат сортировки:");
+            ShowPatients();
+            PutPlug("\nДля возврата в главное меню нажмите любую клавишу.");
+        }
+
+        private void SortByDisease()
+        {
+            List<Patient> filteredPatients = new List<Patient>();
+            string userInput;
+
+            Console.WriteLine("\nСписок всех пациентов:\n");
+            ShowPatients();
+            Console.Write("\nДля поиска пациентов введите заболевание:  ");
+            userInput = Console.ReadLine();
+            filteredPatients = _patients.Where(patient => patient.Disease.ToLower() == userInput.ToLower()).ToList();
+            Console.WriteLine("\nНайдены следующие пациенты:\n");
+            foreach (var patient in filteredPatients)
+            {
+                Console.WriteLine($"ФИО пациента - {patient.FullName}. Возраст - {patient.Age} лет. Заболевание - {patient.Disease}.");
+            }
+            PutPlug("\nДля возврата в главное меню нажмите любую клавишу.");
+        }
+
+        private void ShowPatients()
+        {
+            for (int i = 0; i < _patients.Count; i++)
+            {
+                _patients[i].ShowInfoPatient();
+            }
+        }
+
+        private void PutPlug(string massage)
+        {
+            Console.WriteLine(massage);
+            Console.ReadKey();
+            Console.Clear();
+        }
+    }
+
+    class Patient
+    {
+        public string FullName { get; private set; }
+        public int Age { get; private set; }
+        public string Disease { get; private set; }
+
+        public Patient(string fullName, int age, string disease)
+        {
+            FullName = fullName;
+            Age = age;
+            Disease = disease;
+        }
+
+        public void ShowInfoPatient()
+        {
+            Console.WriteLine($"ФИО пациента - {FullName}. Возраст - {Age} лет. Заболевание - {Disease}.");
+        }
+    }
+}
